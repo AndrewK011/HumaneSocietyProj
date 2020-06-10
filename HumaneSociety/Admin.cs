@@ -35,21 +35,25 @@ namespace HumaneSociety
             if(input == "1" || input.ToLower() == "create")
             {
                 AddEmployee();
+                Console.Read();
                 RunUserMenus();
             }
             else if(input == "2" || input.ToLower() == "delete")
             {
                 RemoveEmployee();
+                Console.Read();
                 RunUserMenus();
             }
             else if(input == "3" || input.ToLower() == "read")
             {
                 ReadEmployee();
+                Console.Read();
                 RunUserMenus();
             }
             else if (input == "4" || input.ToLower() == "update")
             {
                 UpdateEmployee();
+                Console.Read();
                 RunUserMenus();
             }
             else

@@ -138,6 +138,14 @@ namespace HumaneSociety
 
         }
 
+        internal static void DisplayEmployeeInfo(Employee employee)
+        {
+            Console.Clear();
+            List<string> info = new List<string>() { "Employee Information:", employee.FirstName, employee.LastName, employee.EmployeeNumber.ToString(), employee.Email };
+            DisplayUserOptions(info);
+            Console.ReadLine();
+        }
+
         private static string BoolToYesNo(bool? input)
         {
             if (input == true)
