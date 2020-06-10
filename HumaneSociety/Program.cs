@@ -28,7 +28,10 @@ namespace HumaneSociety
             //adoption.AnimalId = 1019;
             //Query.UpdateAdoption(true, adoption);
 
-            PointOfEntry.Run();
+            //Test RemoveAdoption
+            Query.RemoveAdoption(1017, 1014);
+
+            //PointOfEntry.Run();
         }
     }
 }
