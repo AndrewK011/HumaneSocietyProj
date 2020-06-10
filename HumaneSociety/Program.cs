@@ -10,14 +10,19 @@ namespace HumaneSociety
     {
         static void Main(string[] args)
         {
+            //Test Adopt()
             //Animal animal = new Animal();
             //Client client = new Client();
-            //client.ClientId = 1014;
-            //animal.AnimalId = 1017;
+            //client.ClientId = 1015;
+            //animal.AnimalId = 1019;
 
-            
             //Query.Adopt(animal, client);
             //Console.ReadLine();
+
+            //Test GetPendingAdoptions()
+            //IQueryable<Adoption> adoptions = Query.GetPendingAdoptions();
+            //Console.ReadLine();
+
             PointOfEntry.Run();
         }
     }
