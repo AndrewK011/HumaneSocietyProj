@@ -121,7 +121,32 @@ namespace HumaneSociety
             // submit changes
             db.SubmitChanges();
         }
-        
+
+        internal static void UpdateEmployee(Employee employeeWithUpdates)
+        {
+            // find corresponding Employee from Db
+            Employee employeeFromDb = null;
+
+            try
+            {
+                employeeFromDb = db.Employees.Where(c => c.EmployeeNumber == employeeWithUpdates.EmployeeNumber).Single();
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine("No employees have that employee number.");
+                Console.WriteLine("No update have been made.");
+                return;
+            }
+
+            // update employeeFromDb information with the values on employeeWithUpdates 
+            employeeFromDb.FirstName = employeeWithUpdates.FirstName;
+            employeeFromDb.LastName = employeeWithUpdates.LastName;
+            employeeFromDb.Email = employeeWithUpdates.Email;
+
+            // submit changes
+            db.SubmitChanges();
+        }
+
         internal static void AddUsernameAndPassword(Employee employee)
         {
             Employee employeeFromDb = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
@@ -160,13 +185,47 @@ namespace HumaneSociety
             return employeeWithUserName != null;
         }
 
+        internal static bool CheckEmployeeNumberExist(Employee employee)
+        {
+            Employee employeeWithNumber = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
+
+            return employeeWithNumber != null;
+        }
+
 
         //// TODO Items: ////
-        
+
         // TODO: Allow any of the CRUD operations to occur here
         internal static void RunEmployeeQueries(Employee employee, string crudOperation)
         {
-            throw new NotImplementedException();
+            switch (crudOperation)
+            {
+                case "create":
+                    db.Employees.InsertOnSubmit(employee);
+                    db.SubmitChanges();
+                    break;
+                case "read":
+                    try
+                    {
+                        Employee readEmployeeFromDb = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber && e.LastName == employee.LastName).FirstOrDefault();
+                        UserInterface.DisplayEmployeeInfo(readEmployeeFromDb);
+                    }
+                    catch (NullReferenceException e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                    break;
+                case "update":
+                    UpdateEmployee(employee);
+                    break;
+                case "delete":
+                    Employee employeeFromDb = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
+                    db.Employees.DeleteOnSubmit(employeeFromDb);
+                    db.SubmitChanges();
+                    break;
+                default:
+                    break;
+            }
         }
 
         // TODO: Animal CRUD Operations
