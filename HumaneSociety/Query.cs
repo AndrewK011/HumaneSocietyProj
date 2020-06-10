@@ -330,10 +330,11 @@ namespace HumaneSociety
 
         internal static void RemoveAdoption(int animalId, int clientId)
         {
-            //Adoption adoption = db.Adoptions.Where(e => e.AnimalId == animalId && e.ClientId == clientId).FirstOrDefault();
-            Adoption adoption = db.Adoptions.Single(e => e.AnimalId == animalId && e.ClientId == clientId);
+            
+            
             try
             {
+                Adoption adoption = db.Adoptions.Single(e => e.AnimalId == animalId && e.ClientId == clientId && e.ApprovalStatus != "Approved");
                 db.Adoptions.DeleteOnSubmit(adoption);
                 db.SubmitChanges();
             }
