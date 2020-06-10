@@ -23,6 +23,11 @@ namespace HumaneSociety
             //IQueryable<Adoption> adoptions = Query.GetPendingAdoptions();
             //Console.ReadLine();
 
+            //Test UpdateAdoption()
+            //Adoption adoption = new Adoption();
+            //adoption.AnimalId = 1019;
+            //Query.UpdateAdoption(true, adoption);
+
             PointOfEntry.Run();
         }
     }
