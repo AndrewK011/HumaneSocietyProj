@@ -29,8 +29,12 @@ namespace HumaneSociety
             //Query.UpdateAdoption(true, adoption);
 
             //Test RemoveAdoption
-            Query.RemoveAdoption(1017, 1014);
+            //Query.RemoveAdoption(1017, 1014);
 
+            //Test GetShots
+            Animal animal = new Animal();
+            animal.AnimalId = 1014;
+            Query.GetShots(animal);
             //PointOfEntry.Run();
         }
     }
