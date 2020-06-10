@@ -345,10 +345,14 @@ namespace HumaneSociety
                 db.Adoptions.DeleteOnSubmit(adoption);
                 db.SubmitChanges();
             }
-            catch (Exception e)
+            catch (ArgumentNullException e)
             {
                 Console.WriteLine(e);
 
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine(e);
             }
         }
 
@@ -360,7 +364,7 @@ namespace HumaneSociety
                 IQueryable<AnimalShot> shots = db.AnimalShots.Where(a => a.AnimalId == animal.AnimalId);
                 return shots;
             }
-            catch (Exception e)
+            catch (ArgumentNullException e)
             {
                 Console.WriteLine(e);
             }
