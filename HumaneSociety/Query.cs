@@ -207,7 +207,7 @@ namespace HumaneSociety
                 case "read":
                     try
                     {
-                        Employee readEmployeeFromDb = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber && e.LastName == employee.LastName).FirstOrDefault();
+                        Employee readEmployeeFromDb = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
                         UserInterface.DisplayEmployeeInfo(readEmployeeFromDb);
                     }
                     catch (NullReferenceException e)
@@ -219,7 +219,7 @@ namespace HumaneSociety
                     UpdateEmployee(employee);
                     break;
                 case "delete":
-                    Employee employeeFromDb = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
+                    Employee employeeFromDb = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber && e.LastName == employee.LastName).FirstOrDefault();
                     db.Employees.DeleteOnSubmit(employeeFromDb);
                     db.SubmitChanges();
                     break;
