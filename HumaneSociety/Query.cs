@@ -473,28 +473,39 @@ namespace HumaneSociety
         {
             try
             {
+                //Check if shot exists in DB
                 Shot shots  = db.Shots.Where(x => x.Name == shotName).FirstOrDefault();
-                var shotId = shots.ShotId;
 
-                AnimalShot animalShot = db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId && shotId == s.ShotId).FirstOrDefault();
+                //If shot does not exist, add to DB
+                if(shots == null)
+                {
+                    Shot newShots = new Shot();
+                    newShots.Name = shotName;
+
+                    db.Shots.InsertOnSubmit(newShots);
+                    db.SubmitChanges();
+                    shots = newShots;
+                }
+
+                //Add new AnimalShot to DB, getting shotId from Shot Table and AnimalId from Animal Table
+                AnimalShot animalShot = new AnimalShot();
+                animalShot.ShotId = shots.ShotId;
                 animalShot.AnimalId = animal.AnimalId;
-                animalShot.ShotId = shotId;
+                animalShot.DateReceived = DateTime.Today;
+
+                db.AnimalShots.InsertOnSubmit(animalShot);
             }
             catch (ArgumentNullException e)
             {
                 Console.WriteLine(e);
             }
-
-
             try
             {
-                
                 db.SubmitChanges();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-
             }
         }
     }
