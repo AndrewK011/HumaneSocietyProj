@@ -193,11 +193,45 @@ namespace HumaneSociety
         // TODO: Animal Multi-Trait Search
         internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
         {
-            throw new NotImplementedException();
+            var animals = db.Animals.ToList();
+
+            foreach (KeyValuePair<int, string> animalUpdate in updates)
+            {
+                switch (animalUpdate.Key)
+                {
+                    case 1:
+                        animals = animals.Where(s => s.CategoryId.ToString() == animalUpdate.Value).ToList();
+                        break;
+                    case 2:
+                        animals = animals.Where(s => s.Name == animalUpdate.Value).ToList();
+                        break;
+                    case 3:
+                        animals = animals.Where(s => s.Age.ToString() == animalUpdate.Value).ToList();
+                        break;
+                    case 4:
+                        animals = animals.Where(s => s.Demeanor == animalUpdate.Value).ToList();
+                        break;
+                    case 5:
+                        animals = animals.Where(s => s.KidFriendly.ToString() == animalUpdate.Value).ToList();
+                        break;
+                    case 6:
+                        animals = animals.Where(s => s.PetFriendly.ToString() == animalUpdate.Value).ToList();
+                        break;
+                    case 7:
+                        animals = animals.Where(s => s.Weight.ToString() == animalUpdate.Value).ToList();
+                        break;
+                    case 8:
+                        animals = animals.Where(s => s.AnimalId.ToString() == animalUpdate.Value).ToList();
+                        break;
+                }
+                
+            }
+            return (IQueryable<Animal>)animals;
+
         }
          
         // TODO: Misc Animal Things
-        internal static int GetCategoryId(string categoryName)
+        internal static int GetCategoryId(string categoryNam)
         {
             throw new NotImplementedException();
         }
