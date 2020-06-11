@@ -307,7 +307,7 @@ namespace HumaneSociety
                 switch (animalUpdate.Key)
                 {
                     case 1:
-                        animals = animals.Where(s => s.CategoryId.ToString() == animalUpdate.Value).ToList();
+                        animals = animals.Where(s => s.CategoryId == GetCategoryId(animalUpdate.Value)).ToList();
                         break;
                     case 2:
                         animals = animals.Where(s => s.Name == animalUpdate.Value).ToList();
