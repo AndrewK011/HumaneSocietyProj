@@ -74,7 +74,7 @@ namespace HumaneSociety
         {
             DisplayUserOptions($"Is {target} {parameter}?");
             string input = GetUserInput();
-            if (input.ToLower() == "yes" || input.ToLower() == "y")
+            if (input.ToLower() == "yes" || input.ToLower() == "y" || input.ToLower() == "true")
             {
                 return true;
             }
@@ -173,6 +173,7 @@ namespace HumaneSociety
         }
         public static Dictionary<int, string> GetAnimalSearchCriteria()
         {
+            
             Dictionary<int, string> searchParameters = new Dictionary<int, string>();
             bool isSearching = true;
             while (isSearching)

@@ -280,7 +280,7 @@ namespace HumaneSociety
                         animalFromDb.PetFriendly = bool.Parse(trait.Value);
                         break;
                     case 7:
-                        animalFromDb.Weight = int.Parse(trait.Value); ;
+                        animalFromDb.Weight = int.Parse(trait.Value);
                         break;
                     default:
                         break;
@@ -300,6 +300,7 @@ namespace HumaneSociety
         internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
         {
             var animals = db.Animals.ToList();
+            
 
             foreach (KeyValuePair<int, string> animalUpdate in updates)
             {
@@ -331,7 +332,10 @@ namespace HumaneSociety
                         break;
                 }
                 
-            }var queryable = animals.AsQueryable();
+
+            }
+            var queryable = animals.AsQueryable();
+
             return queryable;
 
         }
@@ -431,8 +435,6 @@ namespace HumaneSociety
 
         internal static void RemoveAdoption(int animalId, int clientId)
         {
-            
-            
             try
             {
                 Adoption adoption = db.Adoptions.Single(e => e.AnimalId == animalId && e.ClientId == clientId && e.ApprovalStatus != "Approved");
