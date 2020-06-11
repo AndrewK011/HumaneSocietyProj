@@ -10,27 +10,19 @@ namespace HumaneSociety
     {
         static void Main(string[] args)
         {
-            //Test Adopt()
-            //Animal animal = new Animal();
-            //Client client = new Client();
-            //client.ClientId = 1015;
-            //animal.AnimalId = 1019;
 
-            //Query.Adopt(animal, client);
-            //Console.ReadLine();
+           
 
-            //Test GetPendingAdoptions()
-            //IQueryable<Adoption> adoptions = Query.GetPendingAdoptions();
-            //Console.ReadLine();
 
-            //Test UpdateAdoption()
-            //Adoption adoption = new Adoption();
-            //adoption.AnimalId = 1019;
-            //Query.UpdateAdoption(true, adoption);
+           PointOfEntry.Run();
 
+
+<<<<<<< HEAD
             //Test RemoveAdoption
             //Query.RemoveAdoption(1017, 1014);
             PointOfEntry.Run();
+=======
+>>>>>>> 61a008f472b45d5b60887b5f2fdba6cef2c3ba1f
 
         }
     }
