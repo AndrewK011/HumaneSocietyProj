@@ -82,6 +82,7 @@ namespace HumaneSociety
             }
             catch(InvalidOperationException e)
             {
+                Console.WriteLine(e);
                 Console.WriteLine("No clients have a ClientId that matches the Client passed in.");
                 Console.WriteLine("No update have been made.");
                 return;
@@ -133,6 +134,7 @@ namespace HumaneSociety
             }
             catch (InvalidOperationException e)
             {
+                Console.WriteLine(e);
                 Console.WriteLine("No employees have that employee number.");
                 Console.WriteLine("No update have been made.");
                 return;
@@ -262,25 +264,80 @@ namespace HumaneSociety
                 switch (trait.Key)
                 {
                     case 1:
-                        //animalFromDb.Category = GetCategoryId(trait.Value);
+                        if (trait.Value != null && trait.Value != "null")
+                        {
+                            if (int.TryParse(trait.Value, out int animalCategoryId))
+                            {
+                            animalFromDb.CategoryId = animalCategoryId;
+
+                            }
+                            else
+                            {
+                            animalFromDb.CategoryId = GetCategoryId(trait.Value);
+                            }
+                            
+                        }
                         break;
                     case 2:
                         animalFromDb.Name = trait.Value;
                         break;
                     case 3:
-                        animalFromDb.Age = int.Parse(trait.Value);
+                        if (trait.Value != null && trait.Value != "null")
+                        {
+                            animalFromDb.Age = int.Parse(trait.Value);
+                        }
                         break;
                     case 4:
                         animalFromDb.Demeanor = trait.Value;
                         break;
                     case 5:
-                        animalFromDb.KidFriendly = bool.Parse(trait.Value);
+                        if (trait.Value == "1")
+                        {
+                            animalFromDb.KidFriendly = true;
+                        }
+                        else if (trait.Value == "0")
+                        {
+                            animalFromDb.KidFriendly = false;
+                        }
+                        else if (trait.Value != null && trait.Value != "null")
+                        {
+                            animalFromDb.KidFriendly = bool.Parse(trait.Value);
+                        }
                         break;
                     case 6:
-                        animalFromDb.PetFriendly = bool.Parse(trait.Value);
+                        if (trait.Value == "1")
+                        {
+                            animalFromDb.PetFriendly = true;
+                        }
+                        else if (trait.Value == "0")
+                        {
+                            animalFromDb.PetFriendly = false;
+                        }
+                        else if (trait.Value != null && trait.Value != "null")
+                        {
+                            animalFromDb.PetFriendly = bool.Parse(trait.Value);
+                        }
                         break;
                     case 7:
                         animalFromDb.Weight = int.Parse(trait.Value);
+                        break;
+                    case 8:
+                        animalFromDb.Gender = trait.Value;
+                        break;
+                    case 9:
+                        animalFromDb.AdoptionStatus = trait.Value;
+                        break;
+                    case 10:
+                        if (trait.Value != null && trait.Value != "null")
+                        {
+                            animalFromDb.DietPlanId = int.Parse(trait.Value);
+                        }
+                        break;
+                    case 11:
+                        if (trait.Value != null && trait.Value != "null")
+                        {
+                            animalFromDb.EmployeeId = int.Parse(trait.Value);
+                        }
                         break;
                     default:
                         break;
@@ -488,15 +545,6 @@ namespace HumaneSociety
                 }
                 var shotId = shots.ShotId;
                 
-
-                //Add new AnimalShot to DB, getting shotId from Shot Table and AnimalId from Animal Table
-               // AnimalShot animalShot = new AnimalShot();
-                //animalShot.ShotId = shots.ShotId;
-               // animalShot.AnimalId = animal.AnimalId;
-               // animalShot.DateReceived = DateTime.Today;
-
-                //db.AnimalShots.InsertOnSubmit(animalShot);
-
                 AnimalShot animalShot = db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId && shotId == s.ShotId).FirstOrDefault();
              
                 if (animalShot != null)

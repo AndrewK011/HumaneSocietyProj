@@ -245,6 +245,19 @@ namespace HumaneSociety
         private void AddAnimal()
         {
             Console.Clear();
+            Console.WriteLine("Add animals from other humane society?");
+            if(UserInterface.GetUserInput() == "y" || UserInterface.GetUserInput() == "yes")
+            {
+                List<Dictionary<int,string>> newAnimalList = CsvFileParse.CsvParse();
+
+                foreach(var animalDictionary in newAnimalList)
+                {
+                    Animal animal1 = new Animal();
+                    Query.AddAnimal(animal1);
+                    Query.UpdateAnimal(animal1.AnimalId,animalDictionary);
+                }
+
+            }
 
             string animalCategoryName = UserInterface.GetStringData("category/breed", "the name of the animal's");
             string animalDietPlanName = UserInterface.GetStringData("diet plan", "the name of the animal's");
