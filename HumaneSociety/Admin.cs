@@ -25,7 +25,7 @@ namespace HumaneSociety
         protected override void RunUserMenus()
         {
             Console.Clear();
-            List<string> options = new List<string>() { "Admin log in successful.", "What would you like to do?", "1. Create new employee", "2. Delete employee", "3. Read employee info ", "4. Update emplyee info", "(type 1, 2, 3, 4,  create, read, update, or delete)" };
+            List<string> options = new List<string>() { "Admin log in successful.", "What would you like to do?", "1. Create new employee", "2. Delete employee", "3. Read employee info ", "4. Update emplyee info", "(type 1, 2, 3, 4,  create, delete, read, or update)" };
             UserInterface.DisplayUserOptions(options);
             string input = UserInterface.GetUserInput();
             RunInput(input);
@@ -35,21 +35,25 @@ namespace HumaneSociety
             if(input == "1" || input.ToLower() == "create")
             {
                 AddEmployee();
+                Console.Read();
                 RunUserMenus();
             }
             else if(input == "2" || input.ToLower() == "delete")
             {
                 RemoveEmployee();
+                Console.Read();
                 RunUserMenus();
             }
             else if(input == "3" || input.ToLower() == "read")
             {
                 ReadEmployee();
+                Console.Read();
                 RunUserMenus();
             }
             else if (input == "4" || input.ToLower() == "update")
             {
                 UpdateEmployee();
+                Console.Read();
                 RunUserMenus();
             }
             else
@@ -68,8 +72,17 @@ namespace HumaneSociety
             employee.Email = UserInterface.GetStringData("email", "the employee's");
             try
             {
-                Query.RunEmployeeQueries(employee, "update");
-                UserInterface.DisplayUserOptions("Employee update successful.");
+                if (Query.CheckEmployeeNumberExist(employee))
+                {
+                    Query.RunEmployeeQueries(employee, "update");
+                    UserInterface.DisplayUserOptions("Employee update successful.");
+                }
+                else
+                {
+                    Console.Clear();
+                    UserInterface.DisplayUserOptions("Employee number does not exist please try again or type exit;");
+                    return;
+                }
             }
             catch
             {
@@ -85,7 +98,16 @@ namespace HumaneSociety
             {
                 Employee employee = new Employee();
                 employee.EmployeeNumber = int.Parse(UserInterface.GetStringData("employee number", "the employee's"));
-                Query.RunEmployeeQueries(employee, "read");
+                if (Query.CheckEmployeeNumberExist(employee))
+                {
+                    Query.RunEmployeeQueries(employee, "read");
+                }
+                else
+                {
+                    Console.Clear();
+                    UserInterface.DisplayUserOptions("Employee number does not exist please try again or type exit;");
+                    return;
+                }
             }
             catch
             {
@@ -103,8 +125,17 @@ namespace HumaneSociety
             try
             {
                 Console.Clear();
-                Query.RunEmployeeQueries(employee, "delete");
-                UserInterface.DisplayUserOptions("Employee successfully removed");
+                if (Query.CheckEmployeeNumberExist(employee))
+                {
+                    Query.RunEmployeeQueries(employee, "delete");
+                    UserInterface.DisplayUserOptions("Employee successfully removed");
+                }
+                else
+                {
+                    Console.Clear();
+                    UserInterface.DisplayUserOptions("Employee number does not exist please try again or type exit;");
+                    return;
+                }
             }
             catch
             {
@@ -123,8 +154,18 @@ namespace HumaneSociety
             employee.Email = UserInterface.GetStringData("email", "the employee's"); ;
             try
             {
-                Query.RunEmployeeQueries(employee, "create");
-                UserInterface.DisplayUserOptions("Employee addition successful.");
+                if (!Query.CheckEmployeeNumberExist(employee))
+                {
+                    Query.RunEmployeeQueries(employee, "create");
+                    UserInterface.DisplayUserOptions("Employee addition successful.");
+
+                }
+                else
+                {
+                    Console.Clear();
+                    UserInterface.DisplayUserOptions("Employee number already exists please try again or type exit;");
+                    return;
+                }
             }
             catch
             {

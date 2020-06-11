@@ -121,7 +121,32 @@ namespace HumaneSociety
             // submit changes
             db.SubmitChanges();
         }
-        
+
+        internal static void UpdateEmployee(Employee employeeWithUpdates)
+        {
+            // find corresponding Employee from Db
+            Employee employeeFromDb = null;
+
+            try
+            {
+                employeeFromDb = db.Employees.Where(c => c.EmployeeNumber == employeeWithUpdates.EmployeeNumber).Single();
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine("No employees have that employee number.");
+                Console.WriteLine("No update have been made.");
+                return;
+            }
+
+            // update employeeFromDb information with the values on employeeWithUpdates 
+            employeeFromDb.FirstName = employeeWithUpdates.FirstName;
+            employeeFromDb.LastName = employeeWithUpdates.LastName;
+            employeeFromDb.Email = employeeWithUpdates.Email;
+
+            // submit changes
+            db.SubmitChanges();
+        }
+
         internal static void AddUsernameAndPassword(Employee employee)
         {
             Employee employeeFromDb = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
@@ -160,13 +185,47 @@ namespace HumaneSociety
             return employeeWithUserName != null;
         }
 
+        internal static bool CheckEmployeeNumberExist(Employee employee)
+        {
+            Employee employeeWithNumber = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
+
+            return employeeWithNumber != null;
+        }
+
 
         //// TODO Items: ////
-        
+
         // TODO: Allow any of the CRUD operations to occur here
         internal static void RunEmployeeQueries(Employee employee, string crudOperation)
         {
-            throw new NotImplementedException();
+            switch (crudOperation)
+            {
+                case "create":
+                    db.Employees.InsertOnSubmit(employee);
+                    db.SubmitChanges();
+                    break;
+                case "read":
+                    try
+                    {
+                        Employee readEmployeeFromDb = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
+                        UserInterface.DisplayEmployeeInfo(readEmployeeFromDb);
+                    }
+                    catch (NullReferenceException e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                    break;
+                case "update":
+                    UpdateEmployee(employee);
+                    break;
+                case "delete":
+                    Employee employeeFromDb = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber && e.LastName == employee.LastName).FirstOrDefault();
+                    db.Employees.DeleteOnSubmit(employeeFromDb);
+                    db.SubmitChanges();
+                    break;
+                default:
+                    break;
+            }
         }
 
         // TODO: Animal CRUD Operations
@@ -249,28 +308,109 @@ namespace HumaneSociety
         // TODO: Adoption CRUD Operations
         internal static void Adopt(Animal animal, Client client)
         {
-            throw new NotImplementedException();
+            Adoption adoption = new Adoption();
+            adoption.ClientId = client.ClientId;
+            adoption.AnimalId = animal.AnimalId;
+            adoption.ApprovalStatus = "Pending";
+            adoption.AdoptionFee = 75;
+            adoption.PaymentCollected = false;
+
+            try
+            {
+                db.Adoptions.InsertOnSubmit(adoption);
+                db.SubmitChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+              
+            }
+
         }
 
         internal static IQueryable<Adoption> GetPendingAdoptions()
         {
-            throw new NotImplementedException();
+            try
+            {
+                IQueryable<Adoption> adoption = db.Adoptions.Where(a => a.ApprovalStatus == "Pending");
+                return adoption;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return null;
         }
 
         internal static void UpdateAdoption(bool isAdopted, Adoption adoption)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Adoption adoption1 = db.Adoptions.Where(x => x.AnimalId == adoption.AnimalId).FirstOrDefault();
+
+                if (isAdopted)
+                {
+                    adoption1.ApprovalStatus = "Approved";
+                    adoption1.PaymentCollected = true;
+                }
+                else
+                {
+                    adoption1.ApprovalStatus = "Denied";
+                }
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine(e);
+            }
+
+           
+
+            try
+            {
+                db.SubmitChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+
+            }
+          
         }
 
         internal static void RemoveAdoption(int animalId, int clientId)
         {
-            throw new NotImplementedException();
+            
+            
+            try
+            {
+                Adoption adoption = db.Adoptions.Single(e => e.AnimalId == animalId && e.ClientId == clientId && e.ApprovalStatus != "Approved");
+                db.Adoptions.DeleteOnSubmit(adoption);
+                db.SubmitChanges();
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine(e);
+
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         // TODO: Shots Stuff
         internal static IQueryable<AnimalShot> GetShots(Animal animal)
         {
-            throw new NotImplementedException();
+            try
+            {
+                IQueryable<AnimalShot> shots = db.AnimalShots.Where(a => a.AnimalId == animal.AnimalId);
+                return shots;
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine(e);
+            }
+            return null;
         }
 
         internal static void UpdateShot(string shotName, Animal animal)
