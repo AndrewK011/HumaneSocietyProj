@@ -343,25 +343,40 @@ namespace HumaneSociety
 
         internal static IQueryable<Adoption> GetPendingAdoptions()
         {
-            IQueryable<Adoption> adoption = db.Adoptions.Where(a => a.ApprovalStatus == "Pending");
-            return adoption;
-            
+            try
+            {
+                IQueryable<Adoption> adoption = db.Adoptions.Where(a => a.ApprovalStatus == "Pending");
+                return adoption;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return null;
         }
 
         internal static void UpdateAdoption(bool isAdopted, Adoption adoption)
         {
-
-            Adoption adoption1 = db.Adoptions.Where(x => x.AnimalId == adoption.AnimalId).FirstOrDefault();
-
-            if (isAdopted)
+            try
             {
-                adoption1.ApprovalStatus = "Approved";
-                adoption1.PaymentCollected = true;
+                Adoption adoption1 = db.Adoptions.Where(x => x.AnimalId == adoption.AnimalId).FirstOrDefault();
+
+                if (isAdopted)
+                {
+                    adoption1.ApprovalStatus = "Approved";
+                    adoption1.PaymentCollected = true;
+                }
+                else
+                {
+                    adoption1.ApprovalStatus = "Denied";
+                }
             }
-            else
+            catch (ArgumentNullException e)
             {
-                adoption1.ApprovalStatus = "Denied";
+                Console.WriteLine(e);
             }
+
+           
 
             try
             {
@@ -385,17 +400,30 @@ namespace HumaneSociety
                 db.Adoptions.DeleteOnSubmit(adoption);
                 db.SubmitChanges();
             }
-            catch (Exception e)
+            catch (ArgumentNullException e)
             {
                 Console.WriteLine(e);
 
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine(e);
             }
         }
 
         // TODO: Shots Stuff
         internal static IQueryable<AnimalShot> GetShots(Animal animal)
         {
-            throw new NotImplementedException();
+            try
+            {
+                IQueryable<AnimalShot> shots = db.AnimalShots.Where(a => a.AnimalId == animal.AnimalId);
+                return shots;
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine(e);
+            }
+            return null;
         }
 
         internal static void UpdateShot(string shotName, Animal animal)
