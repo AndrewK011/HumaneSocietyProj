@@ -10,20 +10,7 @@ namespace HumaneSociety
     {
         static void Main(string[] args)
         {
-
-           
-
-
            PointOfEntry.Run();
-
-
-<<<<<<< HEAD
-            //Test RemoveAdoption
-            //Query.RemoveAdoption(1017, 1014);
-            PointOfEntry.Run();
-=======
->>>>>>> 61a008f472b45d5b60887b5f2fdba6cef2c3ba1f
-
         }
     }
 }
