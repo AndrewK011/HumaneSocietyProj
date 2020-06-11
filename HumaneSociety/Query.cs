@@ -464,7 +464,31 @@ namespace HumaneSociety
 
         internal static void UpdateShot(string shotName, Animal animal)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Shot shots  = db.Shots.Where(x => x.Name == shotName).FirstOrDefault();
+                var shotId = shots.ShotId;
+
+                AnimalShot animalShot = db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId && shotId == s.ShotId).FirstOrDefault();
+                animalShot.AnimalId = animal.AnimalId;
+                animalShot.ShotId = shotId;
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine(e);
+            }
+
+
+            try
+            {
+                
+                db.SubmitChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+
+            }
         }
     }
 }
