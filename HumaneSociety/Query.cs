@@ -231,22 +231,69 @@ namespace HumaneSociety
         // TODO: Animal CRUD Operations
         internal static void AddAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            db.Animals.InsertOnSubmit(animal);
+            db.SubmitChanges();
         }
 
         internal static Animal GetAnimalByID(int id)
         {
-            throw new NotImplementedException();
+           return db.Animals.Where(a => a.AnimalId == id).Single();
         }
 
         internal static void UpdateAnimal(int animalId, Dictionary<int, string> updates)
-        {            
-            throw new NotImplementedException();
+        {
+            // find corresponding Animal from Db
+            Animal animalFromDb = null;
+
+            try
+            {
+                animalFromDb = db.Animals.Where(c => c.AnimalId == animalId).Single();
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Animal not found. \nNo updates have been made.");
+                return;
+            }
+
+            //For each corresponding trait, ex(1, cat), update animalFromDb information with the values
+            foreach (KeyValuePair<int, string> trait in updates)
+            {
+                switch (trait.Key)
+                {
+                    case 1:
+                        //animalFromDb.Category = GetCategoryId(trait.Value);
+                        break;
+                    case 2:
+                        animalFromDb.Name = trait.Value;
+                        break;
+                    case 3:
+                        animalFromDb.Age = int.Parse(trait.Value);
+                        break;
+                    case 4:
+                        animalFromDb.Demeanor = trait.Value;
+                        break;
+                    case 5:
+                        animalFromDb.KidFriendly = bool.Parse(trait.Value);
+                        break;
+                    case 6:
+                        animalFromDb.PetFriendly = bool.Parse(trait.Value);
+                        break;
+                    case 7:
+                        animalFromDb.Weight = int.Parse(trait.Value); ;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            // submit changes
+            db.SubmitChanges();
         }
 
         internal static void RemoveAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            db.Animals.DeleteOnSubmit(animal);
+            db.SubmitChanges();
         }
         
         // TODO: Animal Multi-Trait Search

@@ -29,9 +29,9 @@ namespace HumaneSociety
             //Query.UpdateAdoption(true, adoption);
 
             //Test RemoveAdoption
-            Query.RemoveAdoption(1017, 1014);
+            //Query.RemoveAdoption(1017, 1014);
 
-            //PointOfEntry.Run();
+            PointOfEntry.Run();
         }
     }
 }
