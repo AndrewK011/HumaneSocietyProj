@@ -331,8 +331,8 @@ namespace HumaneSociety
                         break;
                 }
                 
-            }
-            return (IQueryable<Animal>)animals;
+            }var queryable = animals.AsQueryable();
+            return queryable;
 
         }
          
