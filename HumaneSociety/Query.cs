@@ -307,7 +307,7 @@ namespace HumaneSociety
                 switch (animalUpdate.Key)
                 {
                     case 1:
-                        animals = animals.Where(s => s.CategoryId.ToString() == animalUpdate.Value).ToList();
+                        animals = animals.Where(s => s.CategoryId == GetCategoryId(animalUpdate.Value)).ToList();
                         break;
                     case 2:
                         animals = animals.Where(s => s.Name == animalUpdate.Value).ToList();
@@ -350,12 +350,17 @@ namespace HumaneSociety
         
         internal static Room GetRoom(int animalId)
         {
-            throw new NotImplementedException();
+            Room room = db.Rooms.Where(a => a.AnimalId == animalId).FirstOrDefault();
+
+            return room;
+
         }
         
         internal static int GetDietPlanId(string dietPlanName)
         {
-            throw new NotImplementedException();
+            DietPlan dietplan = db.DietPlans.Where(d => d.Name == dietPlanName).FirstOrDefault();
+
+            return dietplan.DietPlanId;
         }
 
         // TODO: Adoption CRUD Operations
