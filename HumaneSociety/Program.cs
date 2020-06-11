@@ -30,16 +30,8 @@ namespace HumaneSociety
 
             //Test RemoveAdoption
             //Query.RemoveAdoption(1017, 1014);
-
-<<<<<<< HEAD
             PointOfEntry.Run();
-=======
-            //Test GetShots
-            Animal animal = new Animal();
-            animal.AnimalId = 1014;
-            Query.GetShots(animal);
-            //PointOfEntry.Run();
->>>>>>> 1557e124ca605942d7b5beb337e36655f94a355f
+
         }
     }
 }
