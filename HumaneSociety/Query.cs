@@ -332,8 +332,10 @@ namespace HumaneSociety
                         break;
                 }
                 
+
             }
             var queryable = animals.AsQueryable();
+
             return queryable;
 
         }
