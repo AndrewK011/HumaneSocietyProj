@@ -472,8 +472,21 @@ namespace HumaneSociety
                 var shotId = shots.ShotId;
 
                 AnimalShot animalShot = db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId && shotId == s.ShotId).FirstOrDefault();
-                animalShot.AnimalId = animal.AnimalId;
-                animalShot.ShotId = shotId;
+             
+                if (animalShot != null)
+                {
+                    animalShot.DateReceived = DateTime.Now;
+                    db.SubmitChanges();
+                }
+                else
+                {
+                    AnimalShot shot = new AnimalShot();
+                    shot.AnimalId = animal.AnimalId;
+                    shot.ShotId = shotId;
+                    shot.DateReceived = DateTime.Now;
+                    db.AnimalShots.InsertOnSubmit(shot);
+                    db.SubmitChanges();
+                }
             }
             catch (ArgumentNullException e)
             {
